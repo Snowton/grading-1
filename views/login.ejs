@@ -1,12 +1,13 @@
 <%- include("./partials/header.ejs") %>
 <h1>Welcome to Formable</h1>
+<h2>Login</h2>
 
 <div class="container mid">
     <% if(err) { %> 
         <h3><%= err %></h3>
     <% } %> 
     
-    <a href="/register">Register</a>
+    <a href="/register">Register</a> instead?
     <form action="/login" method="POST" >
         <div class="mb-3">
             <label for="username">Username</label>
