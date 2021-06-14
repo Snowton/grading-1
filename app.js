@@ -214,7 +214,7 @@ app.route("/:formID")
 
 
 
-app.listen(3000, (err) => {
+app.listen(process.env.PORT || 3000, (err) => {
     if(!err) console.log("connected on 3000 :)");
     else console.log(err);
 })
