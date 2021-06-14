@@ -2,10 +2,18 @@
 
 <h1>Hi, <%= user %></h1>
 
-<% for(form of forms) { %> 
-    <a href="/<%= form._id %> "><%= form.name %></a>
-<% } %> 
+<div class="container mid">
+    <h2>Tests</h2>
+    <div>
+        <% for(form of forms) { %> 
+            <div class="forms">
+                <a href="/<%= form._id %> "><%= form.name %></a>
+            </div>
+        <% } %> 
+    </div>
+</div>
 
-<a href="/logout">Logout</a>
+<footer>
+    <p><a href="/logout">Logout</a></p>
 
 <%- include("./partials/footer.ejs") %> 

@@ -12,7 +12,7 @@ app.set("view engine", "ejs")
 app.use(express.urlencoded({extended: true}))
 app.use(express.static("public"))
 
-mongoose.connect("mongodb://localhost:27017/grading1DB", {useNewUrlParser: true})
+mongoose.connect(process.env.MONGO || "mongodb://localhost:27017/grading1DB", {useNewUrlParser: true})
 
 const questionSchema = new mongoose.Schema({
     question: String,
@@ -80,29 +80,6 @@ app.route("/login")
 })
 .post(passport.authenticate('local', { successRedirect: '/',
 failureRedirect: '/login' }))
-// .post((req, res) => {
-//     // console.log("hi");
-
-//     const user = new User({
-//         username: req.body.username,
-//         password: req.body.password
-//     })
-
-//     req.login(user, (err) => {
-//         if(err) {
-//             console.log(err);
-//             res.render("login.ejs", {err: err})
-//         } else {
-//             passport.authenticate("local", (err, user, info) => {
-//                 if (err) { return res.redirect('/login'); }
-//                 if (!user) { return res.redirect('/login'); }
-//                 return res.redirect('/');
-//             })(req, res, () => {
-//                 res.redirect("/")
-//             })
-//         }
-//     })
-// })
 
 app.route("/register")
 .get((req, res) => {
@@ -183,8 +160,6 @@ app.route("/:formID")
     if(!form) {
         res.redirect("/") // not found
     } else {
-        // let questions = []
-        // console.log(req.user.forms);
 
         const payload = {
             name: form.name,
@@ -210,28 +185,13 @@ app.route("/:formID")
             after.grade = grade
         }
 
-        // DO NOT SHOW KIDS
-        after.flag = "this is the flag"
+        after.flag = process.env.FLAG
 
         // console.log(form, form.questions[0]);
         res.render("form.ejs", {form: form, after: after})
     }
-
-    // console.log(req.user.forms.id("60c6850df704d25f7e0edba2"))
 })
 .post(authMW, (req, res) => {
-    // console.log(req.user.forms, req.params.formID);
-    // req.user.forms.id(req.params.formID, (err, form) => {
-    //     console.log("hi");
-    //     form.questions.id(req.body.ID, (err, question) => {
-    //         question.submission = req.body.value
-
-    //         question.save()
-
-    //         console.log("hi");
-    //         res.json({response: "heh"})
-    //     })
-    // })
     const now = Date.now()
     const form = req.user.forms.id(req.params.formID)
     if(now > form.deadline) {

@@ -1,7 +1,13 @@
-body {
-    text-align: center;
+.mid {
+    width: 400px;
+    margin: auto;
+    text-align: left;
 }
 
-h1 {
-    font-size: 4rem;
+.mid > div {
+    border-left: 1px solid;
+}
+
+.forms {
+    padding: 10px 15px;
 }
