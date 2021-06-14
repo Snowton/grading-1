@@ -1,0 +1,11 @@
+<%- include("./partials/header.ejs") %>
+
+<h1>Hi, <%= user %></h1>
+
+<% for(form of forms) { %> 
+    <a href="/<%= form._id %> "><%= form.name %></a>
+<% } %> 
+
+<a href="/logout">Logout</a>
+
+<%- include("./partials/footer.ejs") %> 

@@ -1,0 +1,53 @@
+<%- include("./partials/header.ejs") %>
+
+<h1><%= form.name %></h1>
+
+<form action="/<%= form._id %>" method="POST" onsubmit="return false;">
+    <% for(let question of form.questions) { %> 
+        <label for=""><%= question.question %></label>
+        <% if(question.choices && question.choices.length > 0) { %> 
+            <fieldset>
+                <% for(choice of question.choices) { %> 
+                    <label for=""><input type="radio" name="<%= question._id %>" value="<%= choice %>" <%= choice === question.submission ? "checked" : "" %> <%= after.late ? "disabled" : "class='active'" %> ><%= choice %></label>
+                <% } %> 
+            </fieldset>
+        <% } else { %>
+            <input type="text" <%= after.late ? "disabled" : "" %> class='active' name="<%= question._id %>" value="<%= question.submission ? question.submission : "" %>">
+        <% } %> 
+    <% } %> 
+</form>
+
+<% if(form.submitted) { %>
+This form has been submitted. %> 
+<% } %> 
+<% if(after.late) { %> 
+    The deadline has passed. You got <%= after.grade %> questions right.
+    <% if(after.grade === form.questions.length) { %> 
+        here is the flag <%= after.flag %> 
+    <% } %> 
+<% } else { %> 
+    You can edit until <%= form.deadline %>.
+<% } %> 
+
+<a href="/">Back</a>
+
+<script>
+    function handleClick(event) {
+        fetch("/<%= form._id %>", {
+            method: "POST",
+            body: "ID=" + event.target.name + "&value=" + event.target.value,
+            headers: {
+                'Content-type': 'application/x-www-form-urlencoded'
+            }
+        }).then(result => result.json()).then(res => {
+            console.log(res);
+            console.log('HI');
+        })
+    }
+
+    document.querySelectorAll(".active").forEach(item => {
+        addEventListener("change", handleClick)
+    });
+</script>
+
+<%- include("./partials/footer.ejs") %> 

@@ -1,0 +1,20 @@
+<%- include("./partials/header.ejs") %>
+
+<% if(err) { %> 
+    <h1><%= err %></h1>
+<% } %> 
+
+<a href="/register">Register</a>
+<form action="/login" method="POST" >
+    <div>
+        <label for="username">Username</label>
+        <input name="username" type="text">
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" name="password">
+    </div>
+    <input type="submit">
+</form>
+
+<%- include("./partials/footer.ejs") %> 
